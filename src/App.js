@@ -1,26 +1,97 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styled from 'styled-components';
+import Bar from './Bar';
+
+const Title = styled.h1`
+  color: white;
+  margin-bottom: 60px;
+`;
+
+const Container = styled.div`
+  padding: 10px;
+`;
 
 class App extends Component {
+  state = {
+    goals: [
+      {
+        name: 'Run',
+        unit: 'KM',
+        target: 1000,
+        current: 253,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      },
+      {
+        name: 'Blogposts',
+        unit: 'blogposts',
+        target: 10,
+        current: 6,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      },
+      {
+        name: 'Speak at meetups / conferences',
+        unit: 'talks',
+        target: 5,
+        current: 4,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      },
+      {
+        name: 'Pushups',
+        unit: 'pushups',
+        target: 50000,
+        current: 41723,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      },
+      {
+        name: 'Read books',
+        unit: 'books',
+        target: 12,
+        current: 11,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      },
+    ],
+  };
+
+  componentDidMount() {
+    // Load from localstorage and push to state.goals
+  }
+
+  onGoalEditModalOpen(goal) {
+
+  }
+
+  yearProgress() {
+    const year = new Date().getFullYear();
+    const yearStartDate = +new Date(year, 0, 1);
+    const now = +new Date();
+    const delta = now - yearStartDate;
+
+    return delta / 315360000;
+  }
+
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Container>
+        <Title>Life is short, make it count</Title>
+        {this.state.goals.map(goal => (
+          <Bar key={goal.name} goal={goal} progress={this.yearProgress()} onGoalEdit={this.onGoalEditModalOpen}/>
+        ))}
+      </Container>
     );
   }
 }
