@@ -62,18 +62,24 @@ export default ({ goal, progress, onGoalEdit }) => (
     <Bar color={goal.colors.background} onClick={() => onGoalEdit(goal)}>
       <Fill
         color={goal.colors.fill}
-        percentage={(goal.current / goal.target) * 100}
+        percentage={Math.min((goal.current / goal.target) * 100, 100)}
       />
+
       <Behind className="behind">
-        YOU'RE {goal.target - goal.current} {goal.unit} BEHIND THE SCHEDULE
+        {goal.current / goal.target < 1
+          ? `YOU'RE ${goal.target - goal.current} ${goal.unit} BEHIND THE SCHEDULE`
+          : `Done. ${goal.current} ${goal.unit}`}
       </Behind>
+
       <Now progress={progress} />
       <Text percentage={progress} offset={48}>
         TODAY
       </Text>
-      <Text percentage={(goal.current / goal.target) * 100} offset={54}>
-        {goal.current} {goal.unit}
-      </Text>
+      {goal.current / goal.target < 1 && (
+        <Text percentage={(goal.current / goal.target) * 100} offset={54}>
+          {goal.current} {goal.unit}
+        </Text>
+      )}
     </Bar>
   </>
 );

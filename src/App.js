@@ -4,8 +4,16 @@ import Bar from './Bar';
 
 const Title = styled.h1`
   color: white;
-  margin-bottom: 60px;
+  font-weight: 100;
+  margin-bottom: 0px;
 `;
+
+const Subtitle = styled.h2`
+  color: white;
+  font-weight: 100;
+  font-size: 14px;
+  margin: 0 0 50px;
+`
 
 const Container = styled.div`
   padding: 10px;
@@ -13,6 +21,7 @@ const Container = styled.div`
 
 class App extends Component {
   state = {
+    yearProgress: 93.32,
     goals: [
       {
         name: 'Run',
@@ -63,6 +72,24 @@ class App extends Component {
           fill: '#bbb',
           background: '#666',
         },
+      }, {
+        name: 'Revenue',
+        unit: '$',
+        target: 500000,
+        current: 367000,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
+      }, {
+        name: 'Visit Countries',
+        unit: 'countries',
+        target: 20,
+        current: 21,
+        colors: {
+          fill: '#bbb',
+          background: '#666',
+        },
       },
     ],
   };
@@ -88,6 +115,7 @@ class App extends Component {
     return (
       <Container>
         <Title>Life is short, make it count</Title>
+        <Subtitle>Year progress: {this.yearProgress().toFixed(5)}%</Subtitle>
         {this.state.goals.map(goal => (
           <Bar key={goal.name} goal={goal} progress={this.yearProgress()} onGoalEdit={this.onGoalEditModalOpen}/>
         ))}
