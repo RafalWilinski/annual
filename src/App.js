@@ -72,20 +72,34 @@ class App extends Component {
     localStorage.setItem('goals', JSON.stringify(goals));
   };
 
-  onGoalDelete = (goal) => {
-    this.setState({
-      goals: this.state.goals.filter(g => g.id !== goal.id),
-      isModalOpen: false,
-    }, () => {
-      localStorage.setItem('goals', JSON.stringify(this.state.goals));
-    });
-  }
+  onGoalDelete = goal => {
+    this.setState(
+      {
+        goals: this.state.goals.filter(g => g.id !== goal.id),
+        isModalOpen: false,
+      },
+      () => {
+        localStorage.setItem('goals', JSON.stringify(this.state.goals));
+      },
+    );
+  };
 
   onGoalEditModalOpen = goal => {
     this.setState({
       currentlyEditingGoal: goal,
       isModalOpen: true,
     });
+  };
+
+  daysIntoYear = date => {
+    return (
+      (Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) -
+        Date.UTC(date.getFullYear(), 0, 0)) /
+      24 /
+      60 /
+      60 /
+      1000
+    );
   };
 
   yearProgress() {
@@ -101,7 +115,11 @@ class App extends Component {
     return (
       <Container>
         <Title>Life is short, make it count</Title>
-        <Subtitle>Year progress: {this.yearProgress().toFixed(5)}%</Subtitle>
+        <Subtitle>
+          Year progress: {this.yearProgress().toFixed(5)}%, (
+          {this.daysIntoYear(new Date())} / 365,{' '}
+          {365 - this.daysIntoYear(new Date())} days left till the end of {new Date().getFullYear()})
+        </Subtitle>
         {this.state.goals.map(goal => (
           <Bar
             key={goal.id}
