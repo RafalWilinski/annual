@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import Bar from './Bar';
-import GoalEditModal from './GoalEditModal';
+import Button from './components/Button';
+import Bar from './components/Bar';
+import GoalEditModal from './components/GoalEditModal';
 
 const Title = styled.h1`
   color: white;
@@ -20,16 +21,6 @@ const Container = styled.div`
   padding: 10px;
 `;
 
-const Button = styled.div`
-  color: black;
-  padding: 10px;
-  background-color: #bbb;
-  margin: auto;
-  width: 100px;
-  cursor: pointer;
-  text-align: center;
-`;
-
 class App extends Component {
   state = {
     yearProgress: this.yearProgress(),
@@ -39,7 +30,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    // Load from localstorage and push to state.goals
     this.setState({
       goals: JSON.parse(localStorage.getItem('goals') || '[]'),
     });
@@ -47,6 +37,8 @@ class App extends Component {
 
   onGoalUpdate = goal => {
     let goals;
+
+    console.log(goal);
 
     // Update existing goal
     if (goal.id) {
@@ -84,7 +76,6 @@ class App extends Component {
 
   onGoalEditModalOpen = goal => {
     console.log(goal);
-    
     this.setState({
       currentlyEditingGoal: goal,
       isModalOpen: true,
@@ -107,7 +98,7 @@ class App extends Component {
         <Subtitle>Year progress: {this.yearProgress().toFixed(5)}%</Subtitle>
         {this.state.goals.map(goal => (
           <Bar
-            key={goal.name}
+            key={goal.id}
             goal={goal}
             progress={this.yearProgress()}
             onGoalEdit={this.onGoalEditModalOpen}

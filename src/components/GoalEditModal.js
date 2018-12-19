@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Button from './Button';
 
 const Title = styled.h1`
   color: white;
@@ -46,9 +47,11 @@ class Modal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: this.props.goal ? this.props.goal.name : '',
-      unit: this.props.goal ? this.props.goal.unit : '',
-      target: this.props.goal ? this.props.goal.target : '',
+      name: '',
+      current: 0,
+      target: 0,
+      unit: '',
+      ...this.props.goal,
     };
   }
 
@@ -77,13 +80,27 @@ class Modal extends React.Component {
               placeholder="Goal Unit"
             />
             <Input
-              type='number'
+              type="number"
               pattern="[0-9]*"
               onChange={e => this.setState({ target: e.target.value })}
               value={this.state.target}
               placeholder="Goal Target"
             />
-            <input type="submit" value="Submit" />
+            {this.props.goal && this.props.goal.id && (
+              <>
+                <label htmlFor="progress">Progress</label>
+                <Input
+                  id="progress"
+                  type="number"
+                  pattern="[0-9]*"
+                  onChange={e => this.setState({ current: e.target.value })}
+                  value={this.state.current}
+                  placeholder="Goal Progress"
+                />
+                 <Button type="submit">Delete Goal</Button>
+              </>
+            )}
+            <input type="submit" value="Save"/>
           </form>
         </Window>
       </Backdrop>
