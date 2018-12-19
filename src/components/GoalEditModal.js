@@ -41,6 +41,26 @@ const Window = styled.div`
 const Input = styled.input`
   display: block;
   margin: 5px;
+  font-family: monospace;
+  border: 0;
+  margin: 10px 0;
+  font-size: 12px;
+  padding: 2px 6px;
+`;
+
+const Submit = styled.input`
+  color: black;
+  padding: 10px;
+  background-color: #bbb;
+  margin: 5px auto;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
+  border: 0;
+  font-family: monospace;
+  font-size: 13px;
+  text-align: center;
+  display: block;
 `;
 
 class Modal extends React.Component {
@@ -88,7 +108,7 @@ class Modal extends React.Component {
             />
             {goal && goal.id && (
               <>
-                <label htmlFor="progress">Progress</label>
+                <label style={{color: 'white'}}htmlFor="progress">Progress</label>
                 <Input
                   id="progress"
                   type="number"
@@ -100,7 +120,7 @@ class Modal extends React.Component {
                 <Button onClick={() => onGoalDelete(goal)}>Delete Goal</Button>
               </>
             )}
-            <input type="submit" value="Save" />
+            <Submit type="submit" value="Save" />
           </form>
         </Window>
       </Backdrop>
