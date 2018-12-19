@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import Bar from './Bar';
+import GoalEditModal from './GoalEditModal';
 
 const Title = styled.h1`
   color: white;
@@ -17,6 +18,16 @@ const Subtitle = styled.h2`
 
 const Container = styled.div`
   padding: 10px;
+`;
+
+const Button = styled.div`
+  color: black;
+  padding: 10px;
+  background-color: #bbb;
+  margin: auto;
+  width: 100px;
+  cursor: pointer;
+  text-align: center;
 `;
 
 class App extends Component {
@@ -53,6 +64,10 @@ class App extends Component {
         {this.state.goals.map(goal => (
           <Bar key={goal.name} goal={goal} progress={this.yearProgress()} onGoalEdit={this.onGoalEditModalOpen}/>
         ))}
+        <Button>
+          + New Goal
+        </Button>
+        <GoalEditModal />
       </Container>
     );
   }

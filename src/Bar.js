@@ -6,7 +6,7 @@ const Bar = styled.div`
   position: relative;
   width: 100%;
   height: 50px;
-  margin: 0 0 60px;
+  margin: 0 0 50px;
   background-color: ${props => props.color};
 
   &:hover .behind {
@@ -34,13 +34,14 @@ const Now = styled.div`
 const Behind = styled.div`
   display: none;
   position: absolute;
-  color: white;
+  color: black;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   text-align: center;
   margin-top: 16px;
+  cursor: pointer;
 `;
 
 const Text = styled.div`
