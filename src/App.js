@@ -14,7 +14,7 @@ const Subtitle = styled.h2`
   font-weight: 100;
   font-size: 14px;
   margin: 0 0 50px;
-`
+`;
 
 const Container = styled.div`
   padding: 10px;
@@ -32,20 +32,64 @@ const Button = styled.div`
 
 class App extends Component {
   state = {
-    yearProgress: 93.32,
-    goals: []
+    yearProgress: this.yearProgress(),
+    goals: [],
+    isModalOpen: false,
+    currentlyEditingGoal: null,
   };
 
   componentDidMount() {
     // Load from localstorage and push to state.goals
     this.setState({
-      goals: JSON.parse(localStorage.getItem('goals') || '[]')
+      goals: JSON.parse(localStorage.getItem('goals') || '[]'),
     });
   }
 
-  onGoalEditModalOpen(goal) {
+  onGoalUpdate = goal => {
+    let goals;
 
-  }
+    // Update existing goal
+    if (goal.id) {
+      goals = [
+        ...this.state.goals.filter(g => g.id !== goal.id),
+        {
+          ...goal,
+        },
+      ];
+      // Create new goal
+    } else {
+      goals = [
+        ...this.state.goals,
+        {
+          ...goal,
+          id: Math.random()
+            .toString(36)
+            .substr(2, 26),
+          current: 0,
+          colors: {
+            fill: '#bbb',
+            background: '#666',
+          },
+        },
+      ];
+    }
+
+    this.setState({
+      goals,
+      isModalOpen: false,
+    });
+
+    localStorage.setItem('goals', JSON.stringify(goals));
+  };
+
+  onGoalEditModalOpen = goal => {
+    console.log(goal);
+    
+    this.setState({
+      currentlyEditingGoal: goal,
+      isModalOpen: true,
+    });
+  };
 
   yearProgress() {
     const year = new Date().getFullYear();
@@ -62,12 +106,30 @@ class App extends Component {
         <Title>Life is short, make it count</Title>
         <Subtitle>Year progress: {this.yearProgress().toFixed(5)}%</Subtitle>
         {this.state.goals.map(goal => (
-          <Bar key={goal.name} goal={goal} progress={this.yearProgress()} onGoalEdit={this.onGoalEditModalOpen}/>
+          <Bar
+            key={goal.name}
+            goal={goal}
+            progress={this.yearProgress()}
+            onGoalEdit={this.onGoalEditModalOpen}
+          />
         ))}
-        <Button>
+        <Button
+          onClick={() =>
+            this.setState({
+              isModalOpen: !this.state.isModalOpen,
+              currentlyEditingGoal: undefined,
+            })
+          }
+        >
           + New Goal
         </Button>
-        <GoalEditModal />
+        {this.state.isModalOpen && (
+          <GoalEditModal
+            goal={this.state.currentlyEditingGoal}
+            onClose={() => this.setState({ isModalOpen: false })}
+            onSubmit={this.onGoalUpdate}
+          />
+        )}
       </Container>
     );
   }

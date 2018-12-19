@@ -53,25 +53,37 @@ class Modal extends React.Component {
   }
 
   render() {
-    const { onClose, onSubmit } = this.props;
+    const { onSubmit } = this.props;
 
     return (
-      <Backdrop onClick={onClose}>
-        <Window>
+      <Backdrop onClick={() => this.props.onClose()}>
+        <Window
+          onClick={e => {
+            e.stopPropagation();
+          }}
+        >
           <Title>Add / Edit goal</Title>
           <form onSubmit={e => onSubmit(this.state)}>
             <Input
+              type="text"
               onChange={e => this.setState({ name: e.target.value })}
+              value={this.state.name}
               placeholder="Goal Name"
             />
             <Input
-              onChange={e => this.setState({ name: e.target.unit })}
+              type="text"
+              onChange={e => this.setState({ unit: e.target.value })}
+              value={this.state.unit}
               placeholder="Goal Unit"
             />
             <Input
-              onChange={e => this.setState({ name: e.target.target })}
+              type='number'
+              pattern="[0-9]*"
+              onChange={e => this.setState({ target: e.target.value })}
+              value={this.state.target}
               placeholder="Goal Target"
             />
+            <input type="submit" value="Submit" />
           </form>
         </Window>
       </Backdrop>
