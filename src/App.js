@@ -38,8 +38,6 @@ class App extends Component {
   onGoalUpdate = goal => {
     let goals;
 
-    console.log(goal);
-
     // Update existing goal
     if (goal.id) {
       goals = [
@@ -74,8 +72,16 @@ class App extends Component {
     localStorage.setItem('goals', JSON.stringify(goals));
   };
 
+  onGoalDelete = (goal) => {
+    this.setState({
+      goals: this.state.goals.filter(g => g.id !== goal.id),
+      isModalOpen: false,
+    }, () => {
+      localStorage.setItem('goals', JSON.stringify(this.state.goals));
+    });
+  }
+
   onGoalEditModalOpen = goal => {
-    console.log(goal);
     this.setState({
       currentlyEditingGoal: goal,
       isModalOpen: true,
@@ -119,6 +125,7 @@ class App extends Component {
             goal={this.state.currentlyEditingGoal}
             onClose={() => this.setState({ isModalOpen: false })}
             onSubmit={this.onGoalUpdate}
+            onGoalDelete={this.onGoalDelete}
           />
         )}
       </Container>

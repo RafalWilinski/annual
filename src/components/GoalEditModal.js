@@ -56,10 +56,10 @@ class Modal extends React.Component {
   }
 
   render() {
-    const { onSubmit } = this.props;
+    const { onSubmit, onGoalDelete, onClose, goal } = this.props;
 
     return (
-      <Backdrop onClick={() => this.props.onClose()}>
+      <Backdrop onClick={() => onClose()}>
         <Window
           onClick={e => {
             e.stopPropagation();
@@ -86,7 +86,7 @@ class Modal extends React.Component {
               value={this.state.target}
               placeholder="Goal Target"
             />
-            {this.props.goal && this.props.goal.id && (
+            {goal && goal.id && (
               <>
                 <label htmlFor="progress">Progress</label>
                 <Input
@@ -97,10 +97,10 @@ class Modal extends React.Component {
                   value={this.state.current}
                   placeholder="Goal Progress"
                 />
-                 <Button type="submit">Delete Goal</Button>
+                <Button onClick={() => onGoalDelete(goal)}>Delete Goal</Button>
               </>
             )}
-            <input type="submit" value="Save"/>
+            <input type="submit" value="Save" />
           </form>
         </Window>
       </Backdrop>
