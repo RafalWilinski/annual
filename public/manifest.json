@@ -1,8 +1,20 @@
 {
-  "short_name": "ANNUAL",
-  "name": "ANNUAL",
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "short_name": "Annual Goals",
+  "name": "Annual Goals",
+  "version": "1.0",
+  "manifest_version": 2,
+  "description": "Your personal annual goals on every tab",
+  "browser_action": {
+    "default_title": "New Tab"
+  },
+  "web_accessible_resources": ["index.html"],
+  "background": {
+    "page": "index.html",
+    "persistent": false
+  },
+  "permissions": ["tabs"],
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "content_security_policy": "script-src 'self' 'sha256-GgRxrVOKNdB4LrRsVPDSbzvfdV4UqglmviH9GoBJ5jk='"
 }
