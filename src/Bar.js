@@ -53,33 +53,42 @@ const Text = styled.div`
       : `float: ${props.align}; margin-top: -20px;`}
 `;
 
-export default ({ goal, progress, onGoalEdit }) => (
-  <>
-    <Text align="left">{goal.name}</Text>
-    <Text align="right">
-      {goal.target} {goal.unit} goal
-    </Text>
-    <Bar color={goal.colors.background} onClick={() => onGoalEdit(goal)}>
-      <Fill
-        color={goal.colors.fill}
-        percentage={Math.min((goal.current / goal.target) * 100, 100)}
-      />
+export default ({ goal, progress, onGoalEdit }) => {
+  const goalProgress = (goal.current / goal.target) * 100;
+  const goalToDateTarget = (goal.target * progress) / 100;
+  const goalDelta = goalToDateTarget - goal.current;
 
-      <Behind className="behind">
-        {goal.current / goal.target < 1
-          ? `YOU'RE ${goal.target - goal.current} ${goal.unit} BEHIND THE SCHEDULE`
-          : `Done. ${goal.current} ${goal.unit}`}
-      </Behind>
-
-      <Now progress={progress} />
-      <Text percentage={progress} offset={48}>
-        TODAY
+  return (
+    <>
+      <Text align="left">{goal.name}</Text>
+      <Text align="right">
+        {goal.target} {goal.unit} goal
       </Text>
-      {goal.current / goal.target < 1 && (
-        <Text percentage={(goal.current / goal.target) * 100} offset={54}>
-          {goal.current} {goal.unit}
-        </Text>
-      )}
-    </Bar>
-  </>
-);
+      <Bar color={goal.colors.background} onClick={() => onGoalEdit(goal)}>
+        <Fill
+          color={goal.colors.fill}
+          percentage={Math.min(goalProgress, 100)}
+        />
+
+        <Behind className="behind">
+          {((goal.current / goal.target) * progress) / 100 < 1
+            ? `YOU'RE ${Math.abs(goalDelta)} ${goal.unit} ${
+                goalDelta > 0 ? 'BEHIND THE SCHEDULE' : 'AHEAD OF SCHEDULE'
+              }`
+            : `Done. ${goal.current} ${goal.unit}`}
+        </Behind>
+        <Now progress={progress} />
+        {Math.abs(progress - goalProgress) > 5 && (
+          <Text percentage={progress} offset={48}>
+            TODAY
+          </Text>
+        )}
+        {goal.current / goal.target < 1 && (
+          <Text percentage={goalProgress} offset={54}>
+            {goal.current} {goal.unit}
+          </Text>
+        )}
+      </Bar>
+    </>
+  );
+};
