@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Button from './components/Button';
 import Bar from './components/Bar';
 import GoalEditModal from './components/GoalEditModal';
+import Footer from './components/Footer';
 
 const Title = styled.h1`
   color: white;
@@ -147,6 +148,7 @@ class App extends Component {
             onGoalDelete={this.onGoalDelete}
           />
         )}
+        <Footer />
       </Container>
     );
   }
