@@ -55,6 +55,7 @@ class App extends Component {
           id: Math.random()
             .toString(36)
             .substr(2, 26),
+          createdAt: +new Date(),
           current: 0,
           colors: {
             fill: '#bbb',
@@ -120,7 +121,7 @@ class App extends Component {
           {this.daysIntoYear(new Date())} / 365,{' '}
           {365 - this.daysIntoYear(new Date())} days left till the end of {new Date().getFullYear()})
         </Subtitle>
-        {this.state.goals.map(goal => (
+        {this.state.goals.sort((a, b) => a.createdAt - b.createdAt).map(goal => (
           <Bar
             key={goal.id}
             goal={goal}

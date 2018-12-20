@@ -58,7 +58,7 @@ const Submit = styled.input`
   text-align: center;
   border: 0;
   font-family: monospace;
-  font-size: 13px;
+  font-size: 14px;
   text-align: center;
   display: block;
 `;
